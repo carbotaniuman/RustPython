@@ -7,8 +7,7 @@ use crate::common::hash::{PyHash, PyUHash};
 use crate::frame::FrameRef;
 use crate::function::{Args, FuncArgs, OptionalArg};
 use crate::pyobject::{
-    ItemProtocol, PyClassImpl, PyContext, PyObjectRc, PyObjectRef, PyResult, PyStructSequence,
-    TypeProtocol,
+    ItemProtocol, PyClassImpl, PyContext, PyObjectRef, PyResult, PyStructSequence, TypeProtocol,
 };
 use crate::vm::{PySettings, VirtualMachine};
 use crate::{builtins, exceptions, py_io, version};
@@ -138,7 +137,7 @@ impl SysFlags {
 }
 
 fn sys_getrefcount(obj: PyObjectRef) -> usize {
-    PyObjectRc::strong_count(&obj)
+    PyObjectRef::strong_count(&obj)
 }
 
 fn sys_getsizeof(obj: PyObjectRef) -> usize {

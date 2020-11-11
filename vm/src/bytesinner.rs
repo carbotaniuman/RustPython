@@ -91,10 +91,10 @@ impl ByteInnerNewOptions {
 
     pub fn get_bytes(mut self, cls: PyTypeRef, vm: &VirtualMachine) -> PyResult<PyBytesRef> {
         let inner = if let OptionalArg::Present(source) = self.source.take() {
-            if source.class().is(&PyBytes::class(vm)) && cls.is(&PyBytes::class(vm)) {
-                return self
-                    .check_args(vm)
-                    .map(|_| unsafe { PyRef::from_obj_unchecked(source) });
+            if cls.is(&PyBytes::class(vm)) {
+                if let Ok(source) = source.clone().downcast_exact(vm) {
+                    return self.check_args(vm).map(|()| source);
+                }
             }
 
             match_class!(match source {
